@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UITKTK/BasicUIControls/BasicUIControlsStyleSheet.uss?fileID=7433441132597879392&amp;guid=ab58266da46f9c74a9baa6f8d11679c4&amp;type=3#BasicUIControlsStyleSheet" />
+    <Style src="project://database/Assets/UITKTK/BaseStyleSheet.uss?fileID=7433441132597879392&amp;guid=d16f3e74458950a4ca483a72f8f9c094&amp;type=3#BaseStyleSheet" />
+    <ui:VisualElement class="background dropdown" style="align-items: center; border-top-left-radius: 10px; border-bottom-left-radius: 10px; border-top-right-radius: 10px; border-bottom-right-radius: 10px; transition-duration: 0.1s; width: 100%; opacity: 1;">
+        <ui:VisualElement name="Toggle" style="width: 100%;">
+            <Style src="project://database/Assets/UITKTK/BaseStyleSheet.uss?fileID=7433441132597879392&amp;guid=d16f3e74458950a4ca483a72f8f9c094&amp;type=3#BaseStyleSheet" />
+            <Style src="project://database/Assets/UITKTK/BasicUIControls/BasicUIControlsStyleSheet.uss?fileID=7433441132597879392&amp;guid=ab58266da46f9c74a9baa6f8d11679c4&amp;type=3#BasicUIControlsStyleSheet" />
+            <ui:VisualElement class="button-container" style="width: 100%; height: 100%; opacity: 1;">
+                <ui:Button display-tooltip-when-elided="true" name="Button" text="Select" class="button text" style="width: 100%; height: 100%; background-image: none; overflow: visible; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; -unity-font-style: normal;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="ItemList" text="Select" style="height: auto; justify-content: flex-start; width: 100%; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; visibility: visible; display: none; align-items: center; opacity: 0; transition-property: opacity; transition-duration: 1s;" />
+    </ui:VisualElement>
+</ui:UXML>

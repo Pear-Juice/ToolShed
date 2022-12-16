@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36a37008a77332947bcc206df5bb73fd, type: 3}
+  m_Name: Basic Controls
+  m_EditorClassIdentifier: 
+  boolProp: {fileID: 0}
+  textProp: {fileID: 9197481963319205126, guid: 39bd2e3450bffd74fa514c914603926e, type: 3}
+  enumProp: {fileID: 9197481963319205126, guid: 8fafc98dc5ff50b4cb8afc165c7285ae, type: 3}
+  dropdown: {fileID: 9197481963319205126, guid: ea33d00500a147d468721efeda6a635c, type: 3}
+  dropdownItem: {fileID: 9197481963319205126, guid: 399be4dfc0942364f928c698dad839b5, type: 3}
+  button: {fileID: 9197481963319205126, guid: b1feddb22e9f7a74eb6c20ab1b5921de, type: 3}
+  toggle: {fileID: 9197481963319205126, guid: b8881e411edccbe4285ba4cbbf140dc3, type: 3}

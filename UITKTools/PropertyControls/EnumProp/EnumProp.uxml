@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/ToolShed/UITKTools/PropertyControls/PropStyleSheet.uss?fileID=7433441132597879392&amp;guid=bf8be0115a0690644b1ed96eb5bcc061&amp;type=3#PropStyleSheet" />
+    <Style src="project://database/Assets/ToolShed/BaseStyleSheet.uss?fileID=7433441132597879392&amp;guid=d16f3e74458950a4ca483a72f8f9c094&amp;type=3#BaseStyleSheet" />
+    <ui:VisualElement name="Prop" class="RoundedProp" style="height: auto; min-height: 70px;">
+        <ui:VisualElement style="flex-direction: row; height: 100%;">
+            <ui:VisualElement name="Left" style="width: 50%; height: 70px; justify-content: center; align-items: center;">
+                <ui:Label text="Enum Prop" display-tooltip-when-elided="true" name="Label" enable-rich-text="false" class="text" style="height: auto; -unity-text-align: middle-center; -unity-font-style: normal; justify-content: flex-start; margin-top: 0; margin-left: 0; margin-right: 0; margin-bottom: 0; padding-left: 2px;" />
+            </ui:VisualElement>
+            <ui:VisualElement name="Right" style="width: 50%; height: 100%;">
+                <ui:VisualElement name="DropdownContainer" style="align-items: center; justify-content: center; width: 100%; height: 100%; overflow: visible; padding-left: 10px; padding-right: 10px; padding-top: 10px; padding-bottom: 10px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,116 @@
+.text {
+    font-size: 20px;
+    color: rgb(217, 218, 241);
+    -unity-font: none;
+    -unity-font-definition: url('project://database/Assets/ToolShed/Fonts/Quicksand-SemiBold%20SDF.asset?fileID=11400000&guid=64d64147b6850074e94a92d5652097a2&type=2#Quicksand-SemiBold SDF');
+}
+
+.text-accent {
+    -unity-text-align: middle-center;
+    font-size: 20px;
+    color: rgb(255, 255, 255);
+    white-space: normal;
+    -unity-font-style: normal;
+    -unity-font: none;
+    -unity-font-definition: url('project://database/Assets/ToolShed/Fonts/Quicksand-SemiBold%20SDF.asset?fileID=11400000&guid=64d64147b6850074e94a92d5652097a2&type=2#Quicksand-SemiBold SDF');
+}
+
+.button {
+    transition-property: background-color;
+    transition-duration: 0.1s;
+    background-color: rgb(48, 48, 48);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.button:hover {
+    transition-property: background-color, width;
+    transition-duration: 0.1s, 0.1s;
+    background-color: rgb(50, 50, 50);
+}
+
+.button:active {
+    transition-property: background-color, width;
+    transition-duration: 0.05s, 0.1s;
+    background-color: rgb(46, 46, 46);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transition-delay: 0s, 0s;
+}
+
+.button-accent {
+    transition-property: background-color;
+    transition-duration: 0.1s;
+    background-color: rgb(255, 0, 111);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    width: 100%;
+    height: auto;
+    border-left-color: rgba(0, 0, 0, 0);
+    border-right-color: rgba(0, 0, 0, 0);
+    border-top-color: rgba(0, 0, 0, 0);
+    border-bottom-color: rgba(0, 0, 0, 0);
+    padding-left: 4px;
+    padding-right: 4px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.button-accent:hover {
+    transition-property: background-color, width;
+    transition-duration: 0.1s, 0.1s;
+    background-color: rgb(255, 69, 150);
+    width: 99%;
+}
+
+.button-accent:active {
+    transition-property: background-color, width;
+    transition-duration: 0.05s, 0.1s;
+    background-color: rgb(221, 0, 96);
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    transition-delay: 0s, 0s;
+    width: 95%;
+}
+
+.button-container {
+    height: auto;
+    align-items: center;
+    padding-left: 2px;
+    padding-right: 2px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.short-container {
+    height: 40px;
+}
+
+.tall-container {
+}
+
+.small-box-container {
+    width: 40px;
+    height: 40px;
+}
+
+.backdrop {
+    background-color: rgb(38, 38, 38);
+    transition-property: height;
+}

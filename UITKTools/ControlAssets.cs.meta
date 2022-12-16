@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 36a37008a77332947bcc206df5bb73fd
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - boolProp: {instanceID: 0}
+  - textProp: {instanceID: 0}
+  - enumProp: {instanceID: 0}
+  - dropdown: {instanceID: 0}
+  - dropdownItem: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
