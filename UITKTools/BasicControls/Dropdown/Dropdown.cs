@@ -11,22 +11,28 @@ namespace ToolShed.UITKTools.BasicControls
         private readonly VisualElement itemListElement;
         private readonly Toggle toggle;
         private VisualElement baseElement;
+        public VisualElement dropdownElement { get; }
 
         public Action<Enum> changed;
         private Enum en;
 
-        public Dropdown(VisualElement baseElement)
+        public Dropdown(VisualElement baseElement, ScaleStyle toggleScale = null, ScaleStyle itemScale = null, string defaultText = "Select")
         {
             var enumItems = Enum.GetNames(typeof(TEnum));
 
             dropdownElement = ControlAssets.getControl(ControlAssets.Control.Dropdown, out Action release).Instantiate();
             release.Invoke();
             baseElement.Add(dropdownElement);
+            
             itemListElement = dropdownElement.Q("ItemList");
 
+            toggleScale ??= new ScaleStyle(ScaleStyle.ScalePreset.MaxSmallRect);
+            toggle = new Toggle(dropdownElement.Q("ToggleContainer"), toggleScale, new BackgroundStyle(text: defaultText));
+
+            itemScale ??= new ScaleStyle(ScaleStyle.ScalePreset.MaxSmallRect);
             foreach (var enumItem in enumItems)
             {
-                itemList.Add(new Item(enumItem, itemListElement, () =>
+                itemList.Add(new Item(enumItem, itemListElement, itemScale, () =>
                 {
                     toggle.toggleButton.text = enumItem;
                     toggle.setOff();
@@ -34,8 +40,6 @@ namespace ToolShed.UITKTools.BasicControls
                     if (EnumExtensions.TryParse(typeof(TEnum), enumItem, out en)) changed?.Invoke(en);
                 }));
             }
-
-            toggle = new Toggle(dropdownElement.Q("Toggle"));
 
             IVisualElementScheduledItem opacityScheduledItem = null;
 
@@ -57,32 +61,32 @@ namespace ToolShed.UITKTools.BasicControls
             };
         }
 
-        public void setValue(string value)
+        public void setValue(string value, bool notify = false)
         {
             if (EnumExtensions.TryParse(typeof(TEnum), value, out en))
             {
-                changed?.Invoke(en);
+                if (notify)
+                    changed?.Invoke(en);
                 toggle.toggleButton.text = value;
             }
         }
-
-        public VisualElement dropdownElement { get; }
 
         private class Item
         {
             private readonly UnityEngine.UIElements.Button buttonElement;
             private readonly VisualElement element;
 
-            public Item(string label, VisualElement itemList, Action clicked)
+            public Item(string label, VisualElement itemList, ScaleStyle scale, Action clicked)
             {
                 element = ControlAssets.getControl(ControlAssets.Control.DropdownItem, out Action release).Instantiate();
                 release.Invoke();
                 
-                element.style.width = new Length(100, LengthUnit.Percent);
-                element.style.alignItems = new StyleEnum<Align>(Align.Center);
-
                 buttonElement = element.Q<UnityEngine.UIElements.Button>("Item");
                 buttonElement.clickable.clicked += () => { clicked?.Invoke(); };
+                
+                element.style.alignItems = new StyleEnum<Align>(Align.Center);
+                scale.applyStyle(buttonElement);
+                scale.applyStyle(element);
 
                 itemList.Add(element);
 

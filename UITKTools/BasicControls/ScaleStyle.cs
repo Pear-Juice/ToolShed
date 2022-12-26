@@ -12,8 +12,8 @@ namespace ToolShed.UITKTools.BasicControls
         public float widthScale { get; private set; }
         public float heightScale { get; private set; }
 
-        public Float4? margin { get; private set; }
-        public Float4? padding { get; private set; }
+        public Float4? margin;
+        public Float4? padding;
         
         private const float small = 40;
         private const float large = 50;
@@ -27,8 +27,10 @@ namespace ToolShed.UITKTools.BasicControls
 
         public enum ScalePreset
         {
+            Auto,
             SmallBox,
             LargeBox,
+            MaxBox,
             MaxSmallRect,
             MaxLargeRect,
             AutoSmallRect,
@@ -46,10 +48,14 @@ namespace ToolShed.UITKTools.BasicControls
         {
             switch (scalePreset)
             {
+                case ScalePreset.Auto:
+                    setScale(ScaleType.Auto, 0, ScaleType.Auto, 0); break;
                 case ScalePreset.SmallBox:
                     setScale(ScaleType.Pixel, small, ScaleType.Pixel, small); break;
                 case ScalePreset.LargeBox:
                     setScale(ScaleType.Pixel, large, ScaleType.Pixel, large); break;
+                case ScalePreset.MaxBox:
+                    setScale(ScaleType.Percent, 100, ScaleType.Percent, 100); break;
                 case ScalePreset.MaxSmallRect:
                     setScale(ScaleType.Percent, 100, ScaleType.Pixel, small); break;
                 case ScalePreset.MaxLargeRect:
