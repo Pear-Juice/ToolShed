@@ -8,6 +8,7 @@ namespace ToolShed.UITKTools.BasicControls
         private VisualElement baseElement;
         private VisualElement buttonElement;
         private UnityEngine.UIElements.Button button;
+        private ScaleStyle scaleStyle;
 
         public Action OnClick;
 
@@ -20,6 +21,7 @@ namespace ToolShed.UITKTools.BasicControls
         public Button(VisualElement baseElement, Type type, string label, ScaleStyle scaleStyle = null, BackgroundStyle backgroundStyle = null)
         {
             this.baseElement = baseElement;
+            this.scaleStyle = scaleStyle;
 
             buttonElement = ControlAssets.getControl(ControlAssets.Control.Button, out Action release).Instantiate();
             release.Invoke();

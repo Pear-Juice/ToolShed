@@ -1,7 +1,7 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" xsi="http://www.w3.org/2001/XMLSchema-instance" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements" noNamespaceSchemaLocation="../../../../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
-    <Style src="project://database/Assets/Scripts/UITKTK/BaseStyleSheet.uss?fileID=7433441132597879392&amp;guid=d16f3e74458950a4ca483a72f8f9c094&amp;type=3#BaseStyleSheet" />
-    <Style src="project://database/Assets/Scripts/UITKTK/BasicUIControls/BasicUIControlsStyleSheet.uss?fileID=7433441132597879392&amp;guid=ab58266da46f9c74a9baa6f8d11679c4&amp;type=3#BasicUIControlsStyleSheet" />
+    <Style src="project://database/Assets/ToolShed/BaseStyleSheet.uss?fileID=7433441132597879392&amp;guid=d16f3e74458950a4ca483a72f8f9c094&amp;type=3#BaseStyleSheet" />
+    <Style src="project://database/Assets/ToolShed/UITKTools/BasicControls/BasicUIControlsStyleSheet.uss?fileID=7433441132597879392&amp;guid=ab58266da46f9c74a9baa6f8d11679c4&amp;type=3#BasicUIControlsStyleSheet" />
     <ui:VisualElement class="button-container" style="width: 100%; height: 100%; opacity: 1;">
-        <ui:Button display-tooltip-when-elided="true" name="Button" class="button text" style="width: 100%; height: 100%; background-image: none; overflow: hidden; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0;" />
+        <ui:Button display-tooltip-when-elided="true" name="Button" class="button text" style="width: 100%; height: 100%; background-image: none; overflow: hidden; padding-left: 0; padding-right: 0; padding-top: 0; padding-bottom: 0; margin-left: 0; margin-right: 0; margin-top: 0; margin-bottom: 0; border-top-left-radius: 5px; border-bottom-left-radius: 5px; border-top-right-radius: 5px; border-bottom-right-radius: 5px;" />
     </ui:VisualElement>
 </ui:UXML>

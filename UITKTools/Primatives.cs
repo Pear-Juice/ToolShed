@@ -164,6 +164,11 @@ namespace ToolShed.UITKTools
 
                 return mesh;
             }
+
+            public string toString()
+            {
+                return $"{ColorUtility.ToHtmlStringRGBA(color)}({points[0]})({points[1]})";
+            }
         }
     }
 }

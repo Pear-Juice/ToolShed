@@ -58,7 +58,7 @@
     border-bottom-left-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
-    width: 100%;
+    width: auto;
     height: auto;
     border-left-color: rgba(0, 0, 0, 0);
     border-right-color: rgba(0, 0, 0, 0);
@@ -74,7 +74,7 @@
     transition-property: background-color, width;
     transition-duration: 0.1s, 0.1s;
     background-color: rgb(255, 69, 150);
-    width: 99%;
+    width: auto;
 }
 
 .button-accent:active {
@@ -86,7 +86,7 @@
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
     transition-delay: 0s, 0s;
-    width: 95%;
+    width: auto;
 }
 
 .button-container {

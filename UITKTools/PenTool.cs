@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using LevelEditor.LineEditor;
 using NUnit.Framework;
+using ToolShed.UITKTools.BasicControls;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -31,10 +32,11 @@ namespace ToolShed.UITKTools
 
         public LinePoint selectedLinePoint;
         public Action<LinePoint> OnSelectPoint;
-        public Action OnDeselectPoint;
+        public Action<LinePoint> OnDeselectPoint;
 
         public Action<LinePoint> OnCreatePoint;
         public Action<LinePoint, Vector2, Vector2> OnMovedPoint;
+        public Action<Connection> OnCreateConnection;
 
         public readonly Dictionary<Vector2, LinePoint> linePoints = new();
 
@@ -67,63 +69,76 @@ namespace ToolShed.UITKTools
                     }
                     else
                     {
-                        clickBackground(loc);
+                        clickedBackground(loc);
                     }
                 }
                 else if (mode == Mode.Select)
                 {
                     if (tryGetPointAtLoc(loc, out LinePoint linePoint))
                     {
-                        if (selectedLinePoint != null) Primatives.setPointColor(selectedLinePoint.point, selectedLinePoint.color);
-                        Primatives.setPointColor(linePoint.point, Color.cyan);
-
-                        selectedLinePoint = linePoint;
-                        OnSelectPoint?.Invoke(linePoint);
+                        selectPoint(linePoint);
                     }
                     else
                     {
-                        OnDeselectPoint?.Invoke();
+                        deselectCurrentPoint();
                     }
                 }
             };
 
             clickDrag.OnStartDrag += startDragPoint;
-
             clickDrag.OnDrag += dragPoint;
-
             clickDrag.OnStopDrag += stopDragPoint;
         }
         
         private void initWorkingElement()
         {
             _workingElement = new VisualElement();
+            _workingElement.name = "PenToolWorkingElement";
 
-            _workingElement.style.width = new Length(100, LengthUnit.Percent);
-            _workingElement.style.height = new Length(100, LengthUnit.Percent);
+            var scale = new ScaleStyle(ScaleStyle.ScalePreset.MaxBox);
+            scale.applyStyle(_workingElement);
+            
             _workingElement.style.position = Position.Absolute;
             _baseElement.Add(_workingElement);
         }
 
-        private void clickBackground(Vector2 loc)
+        /// <summary>
+        /// Executes when background is clicked
+        /// Creates a LinePoint and all associated procedings
+        /// </summary>
+        /// <param name="loc"></param>
+        private void clickedBackground(Vector2 loc)
         {
             LinePoint newPoint = createPoint(loc);
             //Connect this point to potential next point
             Connection connectionToNewPoint = extendPoint(newPoint);
             newPoint.connections.Add(connectionToNewPoint);
 
+            OnCreatePoint?.Invoke(newPoint);
+            
             //fill in last connections other point and connect it if it exists
             if (lastConnection != null)
             {
                 lastConnection.otherPoint = newPoint;
-                newPoint.connections.Add(new Connection(newPoint, lastConnection.line, lastLinePoint));
+                Connection newBackwardsConnection = new Connection(newPoint, lastConnection.line, lastLinePoint);
+                newPoint.connections.Add(newBackwardsConnection);
+                
+                //call OnCreateConnection for both forward and backwards links
+                OnCreateConnection.Invoke(lastConnection); //forwards
+                OnCreateConnection.Invoke(newBackwardsConnection); //backwards
             }
-            
-            OnCreatePoint?.Invoke(newPoint);
 
             lastLinePoint = newPoint;
             lastConnection = connectionToNewPoint;
         }
 
+        /// <summary>
+        /// Executes one of three states when a point is clicked
+        /// A: If LinePoint that was clicked is the point being extended from then stop extending
+        /// B: If LinePoint that was clicked is not the point being extended from then connect the two points
+        /// C: If no extension is happening then start extension
+        /// </summary>
+        /// <param name="linePoint">LinePoint that was clicked</param>
         private void clickPoint(LinePoint linePoint)
         {
             //If clicked on same point, stop. Else start extending from clicked point
@@ -140,9 +155,14 @@ namespace ToolShed.UITKTools
                 if (debug) Debug.Log("Connect Points");
                 
                 //Create backwards connection from this point to previous point
-                linePoint.connections.Add(new Connection(linePoint, lastConnection.line, lastLinePoint));
+                Connection newBackwardsConnection = new Connection(linePoint, lastConnection.line, lastLinePoint);
+                linePoint.connections.Add(newBackwardsConnection);
                 lastConnection.otherPoint = linePoint;
                 
+                //call OnCreateConnection for both forward and backwards links
+                OnCreateConnection.Invoke(lastConnection); //forwards
+                OnCreateConnection.Invoke(newBackwardsConnection); //backwards
+
                 if (debug) lastConnection.line.color = Color.magenta;
                 //Shift line to align with point
                 lastConnection.line.moveSecondPoint(Primatives.getPointPosition(linePoint.point.spriteElement, _linePointStyle.pointScale));
@@ -165,6 +185,10 @@ namespace ToolShed.UITKTools
             }
         }
 
+        /// <summary>
+        /// Gets if there is a point to drag at loc and then initializes required callbacks for moving the line
+        /// </summary>
+        /// <param name="loc"></param>
         private void startDragPoint(Vector2 loc)
         {
             if (mode != Mode.Edit) return;
@@ -176,6 +200,7 @@ namespace ToolShed.UITKTools
                 dragLinePoint = linePoint;
                 linePoints.Remove(linePoint.point.Loc);
 
+                //Set up move callbacks for whichever point is closest
                 foreach (var connection in dragLinePoint.connections)
                 {
                     float distanceToP1 = Vector2.Distance(loc, connection.line.points[0]);
@@ -196,6 +221,9 @@ namespace ToolShed.UITKTools
             }
         }
 
+        /// <summary>
+        /// Called when point is being dragged
+        /// </summary>
         private void dragPoint(Vector2 pos, Vector2 dPos)
         {
             if (dragLinePoint != null)
@@ -205,6 +233,9 @@ namespace ToolShed.UITKTools
             }
         }
         
+        /// <summary>
+        /// Called when point is no longer being dragged
+        /// </summary>
         private void stopDragPoint(Vector2 pos)
         {
             if (dragLinePoint != null)
@@ -217,7 +248,11 @@ namespace ToolShed.UITKTools
             }
         }
         
-        
+        /// <summary>
+        /// Creates a LinePoint at a location and adds it to the working element
+        /// </summary>
+        /// <param name="loc">Location to create a LinePoint at</param>
+        /// <returns>Created LinePoint</returns>
         private LinePoint createPoint(Vector2 loc)
         {
             LinePoint linePoint = new()
@@ -234,9 +269,10 @@ namespace ToolShed.UITKTools
         
         /// <summary>
         /// Creates line and extends from first line point
+        /// Created line is added to working element
         /// </summary>
         /// <param name="firstLinePoint">Point to extend from</param>
-        /// <returns></returns>
+        /// <returns>Created connection</returns>
         public Connection extendPoint(LinePoint firstLinePoint)
         {
             //Create line
@@ -267,6 +303,11 @@ namespace ToolShed.UITKTools
             return connection;
         }
         
+        /// <summary>
+        /// Cancels extension from point
+        /// Extensions consist of one connection added to the original point
+        /// </summary>
+        /// <param name="connection"></param>
         public void cancelExtension(Connection connection)
         {
             _workingElement.Remove(connection.line);
@@ -278,11 +319,22 @@ namespace ToolShed.UITKTools
             connection.thisPoint.connections.Remove(connection);
         }
 
+        /// <summary>
+        /// Gets whatever element is at location
+        /// </summary>
+        /// <param name="loc">Location to get at</param>
+        /// <returns>VisualElement at location</returns>
         private VisualElement getElementAtLoc(Vector2 loc)
         {
             return _workingElement.panel.Pick(loc);
         }
 
+        /// <summary>
+        /// Tries to get LinePoint at location
+        /// </summary>
+        /// <param name="loc"></param>
+        /// <param name="point"></param>
+        /// <returns></returns>
         private bool tryGetPointAtLoc(Vector2 loc, out LinePoint point)
         {
             if (debug) Debug.Log("Try at: " + loc);
@@ -300,6 +352,10 @@ namespace ToolShed.UITKTools
             return false;
         }
         
+        /// <summary>
+        /// Gets all LinePoints in pen tool as a list
+        /// </summary>
+        /// <returns>List of LinePoints</returns>
         public List<LinePoint> getPath()
         {
             var keyValuePairs = linePoints.ToList();
@@ -311,7 +367,36 @@ namespace ToolShed.UITKTools
         }
 
         /// <summary>
-        /// 
+        /// Selects the point that is passed by param linePoint
+        /// </summary>
+        /// <param name="linePoint">Point to select</param>
+        /// <param name="notify">Changes whether OnSelectPoint is called</param>
+        public void selectPoint(LinePoint linePoint, bool notify = true)
+        {
+            if (selectedLinePoint != null) Primatives.setPointColor(selectedLinePoint.point, selectedLinePoint.color);
+            Primatives.setPointColor(linePoint.point, _linePointStyle.selectedPointColor);
+
+            selectedLinePoint = linePoint;
+            if (notify)
+                OnSelectPoint?.Invoke(linePoint);
+        }
+
+        /// <summary>
+        /// Deselects the currently selected point if one is selected
+        /// </summary>
+        /// <param name="notify">Changes whether OnDeselectPoint is called</param>
+        public void deselectCurrentPoint(bool notify = true)
+        {
+            if (selectedLinePoint != null)
+            {
+                Primatives.setPointColor(selectedLinePoint.point, selectedLinePoint.color);
+                if (notify)
+                    OnDeselectPoint?.Invoke(selectedLinePoint);
+            }
+        }
+
+        /// <summary>
+        /// Loads PenTool with previously created LinePoints
         /// </summary>
         /// <param name="linePoints"> List of points to add</param>
         /// <returns>Key: inputted line point, Value: created line point</returns>
@@ -373,11 +458,17 @@ namespace ToolShed.UITKTools
             return createdLinePoints;
         }
 
+        /// <summary>
+        /// Show PenTool
+        /// </summary>
         public void activate()
         {
             _workingElement.style.display = DisplayStyle.Flex;
         }
 
+        /// <summary>
+        /// Hide PenTool
+        /// </summary>
         public void deactivate()
         {
             _workingElement.style.display = DisplayStyle.None;
@@ -405,6 +496,11 @@ namespace ToolShed.UITKTools
             }
         }
 
+        /// <summary>
+        /// Connection from a LinePoint to another LinePoint
+        /// Connections are created one on this point pointing towards other point and one on other point pointing towards this point
+        /// o -> line <- o
+        /// </summary>
         public class Connection
         {
             public Primatives.Line line;
@@ -428,8 +524,15 @@ namespace ToolShed.UITKTools
                 registerMoveLineCallback(direction);
             }
 
-
+            
             private List<Direction> directions = new();
+            
+            /// <summary>
+            /// Registers callbacks that update the connections line when its points are moved
+            /// A connection's points use separate locations than the connection's line so callbacks are required to update the connection's line
+            /// </summary>
+            /// <param name="direction">Sets which connection point should move which line point</param>
+            /// <exception cref="ArgumentOutOfRangeException"></exception>
             public void registerMoveLineCallback(Direction? direction)
             {
                 switch (direction)
@@ -449,6 +552,9 @@ namespace ToolShed.UITKTools
                 }
             }
 
+            /// <summary>
+            /// Unregisters all of a line's callbacks
+            /// </summary>
             public void unregisterMoveLineCallbacks()
             {
                 foreach (var dir in directions)

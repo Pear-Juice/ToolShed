@@ -35,7 +35,7 @@ namespace ToolShed.UITKTools.BasicControls
                 itemList.Add(new Item(enumItem, itemListElement, itemScale, () =>
                 {
                     toggle.toggleButton.text = enumItem;
-                    toggle.setOff();
+                    toggle.setOff(true);
 
                     if (EnumExtensions.TryParse(typeof(TEnum), enumItem, out en)) changed?.Invoke(en);
                 }));

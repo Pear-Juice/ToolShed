@@ -54,18 +54,19 @@ namespace ToolShed.UITKTools.BasicControls
             {
                 if (!value)
                 {
-                    setOn();
+                    setOn(true);
                 }
                 else
                 {
-                    setOff();
+                    setOff(true);
                 }
             };
         }
 
-        public void setOn()
+        public void setOn(bool notify = false)
         {
-            on?.Invoke();
+            if (notify)
+                on?.Invoke();
             value = true;
             
             toggleButton.AddToClassList("button-accent");
@@ -74,15 +75,26 @@ namespace ToolShed.UITKTools.BasicControls
             toggleButton.RemoveFromClassList("text");
         }
 
-        public void setOff()
+        public void setOff(bool notify = false)
         {
-            off?.Invoke();
+            if (notify)
+                off?.Invoke();
             value = false;
             
             toggleButton.AddToClassList("button");
             toggleButton.AddToClassList("text");
             toggleButton.RemoveFromClassList("button-accent");
             toggleButton.RemoveFromClassList("text-accent");
+        }
+
+        public void setActive()
+        {
+            toggleElement.style.display = DisplayStyle.Flex;
+        }
+
+        public void setInactive()
+        {
+            toggleElement.style.display = DisplayStyle.None;
         }
     }
 }
