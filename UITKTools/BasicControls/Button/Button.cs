@@ -7,7 +7,7 @@ namespace ToolShed.UITKTools.BasicControls
     {
         private VisualElement baseElement;
         private VisualElement buttonElement;
-        private UnityEngine.UIElements.Button button;
+        public UnityEngine.UIElements.Button button;
         private ScaleStyle scaleStyle;
 
         public Action OnClick;
@@ -31,7 +31,8 @@ namespace ToolShed.UITKTools.BasicControls
             button = buttonElement.Q<UnityEngine.UIElements.Button>("Button");
             button.text = label;
             
-            scaleStyle?.applyStyle(button);
+            scaleStyle?.applyStyle(buttonElement);
+            new ScaleStyle(ScaleStyle.ScalePreset.MaxBox).applyStyle(button);
             backgroundStyle?.applyStyle(button);
 
             setType(type);

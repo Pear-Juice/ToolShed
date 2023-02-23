@@ -463,7 +463,7 @@ namespace ToolShed.UITKTools
         /// </summary>
         public void activate()
         {
-            _workingElement.style.display = DisplayStyle.Flex;
+            _workingElement.setActive();
         }
 
         /// <summary>
@@ -471,7 +471,7 @@ namespace ToolShed.UITKTools
         /// </summary>
         public void deactivate()
         {
-            _workingElement.style.display = DisplayStyle.None;
+            _workingElement.setInactive();
         }
         
         public class LinePointStyle

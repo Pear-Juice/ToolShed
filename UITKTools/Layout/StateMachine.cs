@@ -19,7 +19,7 @@ namespace ToolShed.UITKTools
                 
                 stateElements.Add(stateElement);
                 baseElement.Add(stateElement);
-                stateElement.style.display = DisplayStyle.None;
+                stateElement.setInactive();
                 
                 action.Invoke(stateElement);
             }
@@ -31,9 +31,9 @@ namespace ToolShed.UITKTools
                 
                 
             if (currentStateElement != null)
-                currentStateElement.style.display = DisplayStyle.None;
+                currentStateElement.setInactive();
             
-            stateElements[index].style.display = DisplayStyle.Flex;
+            stateElements[index].setActive();
             currentStateElement = stateElements[index];
         }
     }

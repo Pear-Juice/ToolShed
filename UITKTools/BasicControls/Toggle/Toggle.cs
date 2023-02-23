@@ -18,7 +18,8 @@ namespace ToolShed.UITKTools.BasicControls
         /// </summary>
         /// <param name="baseElement">Element to create toggle on</param>
         /// <param name="scaleStyle">Scale of new toggle</param>
-        public Toggle(VisualElement baseElement, ScaleStyle scaleStyle, BackgroundStyle backgroundStyle)
+        /// <param name="backgroundStyle">Background of new toggle</param>
+        public Toggle(VisualElement baseElement, ScaleStyle scaleStyle = null, BackgroundStyle backgroundStyle = null)
         {
             this.baseElement = baseElement;
             toggleElement = ControlAssets.getControl(ControlAssets.Control.Toggle, out Action release).Instantiate();
@@ -26,8 +27,8 @@ namespace ToolShed.UITKTools.BasicControls
             
             toggleButton = toggleElement.Q<UnityEngine.UIElements.Button>("Button");
 
-            scaleStyle.applyStyle(toggleElement);
-            backgroundStyle.applyStyle(toggleButton);
+            scaleStyle?.applyStyle(toggleElement);
+            backgroundStyle?.applyStyle(toggleButton);
             
             baseElement.Add(toggleElement);
             
@@ -38,11 +39,20 @@ namespace ToolShed.UITKTools.BasicControls
         /// Load toggle from existing toggle element
         /// </summary>
         /// <param name="toggleElement">Element to create toggle with</param>
+        /// /// <param name="backgroundStyle">Background of new toggle</param>
         public Toggle(VisualElement toggleElement, BackgroundStyle backgroundStyle = null)
         {
             this.toggleElement = toggleElement;
             this.toggleButton = toggleElement.Q<UnityEngine.UIElements.Button>("Button");
 
+            backgroundStyle?.applyStyle(toggleButton);
+
+            addCallbacks();
+        }
+        
+        public Toggle(UnityEngine.UIElements.Button toggleButton, BackgroundStyle backgroundStyle = null)
+        {
+            this.toggleButton = toggleButton;
             backgroundStyle?.applyStyle(toggleButton);
 
             addCallbacks();
@@ -89,12 +99,14 @@ namespace ToolShed.UITKTools.BasicControls
 
         public void setActive()
         {
-            toggleElement.style.display = DisplayStyle.Flex;
+            toggleElement?.setActive();
+            toggleButton?.setActive();
         }
 
         public void setInactive()
         {
-            toggleElement.style.display = DisplayStyle.None;
+            toggleElement?.setInactive();
+            toggleButton?.setInactive();
         }
     }
 }

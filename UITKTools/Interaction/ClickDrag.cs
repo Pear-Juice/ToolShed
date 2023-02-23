@@ -7,6 +7,9 @@ namespace ToolShed.UITKTools
     public class ClickDrag
     {
         public Action<Vector2> OnClick;
+        /// <summary>
+        /// Vector2: Position of mouse, Vector2: Change in position of mouse
+        /// </summary>
         public Action<Vector2, Vector2> OnDrag;
         public Action<Vector2> OnStartDrag;
         public Action<Vector2> OnStopDrag;

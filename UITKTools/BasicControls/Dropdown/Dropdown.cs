@@ -45,7 +45,7 @@ namespace ToolShed.UITKTools.BasicControls
 
             toggle.on += () =>
             {
-                itemListElement.style.display = DisplayStyle.Flex;
+                itemListElement.setActive();
                 opacityScheduledItem = itemListElement.schedule.Execute(() =>
                 {
                     itemListElement.style.opacity = itemListElement.style.opacity.value + 10;
@@ -54,7 +54,7 @@ namespace ToolShed.UITKTools.BasicControls
 
             toggle.off += () =>
             {
-                itemListElement.style.display = DisplayStyle.None;
+                itemListElement.setInactive();
                 itemListElement.style.opacity = 0;
 
                 opacityScheduledItem?.Pause();
