@@ -22,3 +22,6 @@ ToolShed attempts to add useful general purpose or UITK based components where U
 - ```Enum``` Dropdown property
 - ```Text``` Text property, strings, ints, and floats
 
+### Layout
+-```Grid``` Creates a grid based on specified number of elements that scales by size of parent visual element
+
